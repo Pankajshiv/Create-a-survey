@@ -1,8 +1,11 @@
-import React, { Component, useState } from "react";
+import React , { Component, useState }  from "react";
+import "./App.css";
+import Publish from "./Publish.js"
 import Options from "./Options.js";
-import TakeSurvey from "./TakeSurvey";
-function CreateSurvey(props) {
-  const [slct, setslct] = useState(false);
+import Input from "./Input.js";
+
+const CreateSurvey=()=>{
+  const [select, setselect] = useState(false);
   const [val, setval] = useState("Select Question Type");
   const [array, setarray] = useState([{ text: "" }]);
   const [surveyList, setsurveyList] = useState([]);
@@ -20,20 +23,17 @@ function CreateSurvey(props) {
     setarray(arrayCopy);
   };
   const handleNegative = (event, id) => {
-    if(array.length > 1){
-      const arr = array.slice();
-      const filteredArray = arr.filter((item, index) => index != id);
-      setarray(filteredArray);
-    }
+    const arr = array.slice();
+    const filteredArray = arr.filter((item, index) => index != id);
+    setarray(filteredArray);
   };
-
   const addobj = () => {
     let obj = {
       questionType: val,
       question: question,
       answer: array,
     };
-    setslct(false);
+    setselect(false);
     let copysurveyList = [...surveyList];
     copysurveyList.push(obj);
     setsurveyList(copysurveyList);
@@ -47,7 +47,7 @@ function CreateSurvey(props) {
       question: question,
       answer: array,
     };
-    setslct(false);
+    setselect(false);
     let copysurveyList = [...surveyList];
     copysurveyList.push(obj);
     setsurveyList(copysurveyList);
@@ -58,7 +58,7 @@ function CreateSurvey(props) {
   };
   return (
     <>
-      {isPublished ? (
+        {isPublished ? (
         <div>
          
           <select
@@ -66,8 +66,10 @@ function CreateSurvey(props) {
             id="options"
             className="options"
             onChange={(event) => {
-              setslct(true);
+              setselect(true);
               setval(event.target.value);
+              if (event.target.value === "single-select")
+                setarray([{ text: "" }, { text: "" }]);
             }}
           >
             <option value="do-select">Select Question Type</option>
@@ -75,12 +77,9 @@ function CreateSurvey(props) {
             <option value="single-select">single-select</option>
           </select>
             
-          {slct && (
+          {select && (
             <>
-             <div>
-              <label><h4>Question:</h4>
-                  <input style={{display:"block"}} className="form-control" classtype="text" className="question-input" placeholder="Enter your question here" onChange={(event)=>setquestion(event.target.value)}/>
-              </label></div>
+              <Input setquestion={setquestion} />
               <h4 className="h1p mt-2 ">Options</h4>
               {val == "multi-select" ? (
                 array.map((item, index) => (
@@ -115,27 +114,19 @@ function CreateSurvey(props) {
           )}
           {(array.length == 4 || val === "single-select") && (
             <div className="buttondiv">
-              <button
-                className="btn btn-outline-primary m-4 p-2"
-                onClick={addobj}
-              >
-                Add Question
-              </button>
-              <button
-                className="btn btn-outline-primary m-4 p-2"
-                onClick={handlePublish}
-              >
-                Publish
-                </button>
+              <button type="submit" className="btn btn-warning m-2" onClick={addobj}>Add Question</button>
+              <button type="submit" className="btn btn-warning m-2" onClick={handlePublish}>Publish</button>
             </div>
           )}
         </div>
       ) : (
           <div>
-            <TakeSurvey surveyList={surveyList} />
+            <Publish surveyList={surveyList} />
           </div>
         )}
     </>
   );
 }
+
 export default CreateSurvey;
+

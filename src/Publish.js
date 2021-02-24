@@ -1,7 +1,7 @@
 import React from 'react'
+import "./App.css"
 import {Link} from "react-router-dom"
-function TakeSurvey(props){
-
+function Publish(props){
 
   return (
     <form>
@@ -40,27 +40,13 @@ function TakeSurvey(props){
        </div>
      ))}
     <div className="buttondiv">
-      <Link to="/">
-       <button className="btn btn-outline-primary m-4 p-2">Confirm</button>
+    <Link to="/welcome">
+     <button className="btn btn-success m-3 ">Confirm</button>
      </Link>
       </div>
     </form>
   )
 }
 
-TakeSurvey.defaultProps={
-  surveyList:[
-    {
-      questionType:'multi-select',
-      question:'How could you know about this post ?',
-      answer:[{text:'Linkendin'},{text:'Whatsapp'},{text:'Facebook'},{text:'Instagram'}]
-    },
-    {
-      questionType:'single-choice',
-      question:'Is Everyone is presesnt here?',
-      answer:[{text:'yes'},{text:'no'}]
-    }
-  ]
-}
 
-export default TakeSurvey;
+export default Publish;
